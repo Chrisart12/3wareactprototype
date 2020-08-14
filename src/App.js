@@ -1,26 +1,41 @@
-import React from 'react';
+import React, {Component} from 'react';
+import axios from 'axios'
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Title from './components/Title';
 
-function App() {
+
+class App extends Component {
+
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            qcm: [],
+            badge: []
+        }
+    }
+    
+
+    componentDidMount() {
+        axios.get("http://localhost:3000/data/mydata.json")
+        .then(response => {
+            console.log(response.data)
+            this.setState({
+                qcm: response.data.qcm,
+                badge: response.data.qcm
+            })
+        })
+    }
+
+ render() {
+     const { qcm } = this.state
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+        <Title qcm={qcm} />
     </div>
-  );
+  )
+ }
 }
 
 export default App;
